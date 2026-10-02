@@ -1,38 +1,46 @@
-# Maquette interactive — Parcours RH
+# Parcours RH — Démonstration publique
 
-Ouvrir [`index.html`](./index.html) dans un navigateur récent. La maquette est autonome : aucune installation, aucun serveur et aucune donnée réelle ne sont nécessaires.
+Maquette interactive d'une plateforme de gestion des entretiens de parcours professionnel et du plan de développement des compétences.
 
-## Parcours à tester
+## Accéder à la démonstration
+
+- [Ouvrir la maquette sur GitHub Pages](https://rhmissiondata.github.io/rh_missiondata_public/)
+- [Télécharger le manuel utilisateur illustré](https://rhmissiondata.github.io/rh_missiondata_public/documentation/manuel-utilisateur.pdf)
+- [Consulter le manuel en ligne](https://rhmissiondata.github.io/rh_missiondata_public/documentation/manuel-utilisateur.html)
+
+## Parcours disponibles
 
 ### Vue RH
 
-1. Tableau de bord et alerte des échéances à quatre ans.
-2. `Entretiens` → dossier de Sophie → préparation guidée en cinq étapes.
-3. `Conduire l'entretien` → trame enregistrée en direct en six étapes.
-4. Prévisualisation du compte rendu et contrôle avant remise.
-5. `Besoins` → ouverture d'une demande et regroupement en cohorte.
-6. `Plan de compétences` → comparaison des scénarios demandé, proposé et approuvé.
-7. `Arbitrages` → retenir, reporter ou ne pas retenir un besoin.
-8. `Budget`, `Réalisation` et `Conformité`.
+- tableau de bord et suivi des échéances ;
+- liste et fiche des collaborateurs ;
+- historique des entretiens et comptes rendus archivés ;
+- préparation et conduite de l'entretien en huit étapes ;
+- réception des demandes spontanées ;
+- consolidation des besoins et calcul des populations uniques ;
+- plan de développement des compétences, arbitrages et budget.
 
 ### Vue collaborateur
 
-Utiliser le sélecteur `Vue RH / Vue collaborateur` en haut à droite, puis tester :
+- accueil et préparation privée de l'entretien ;
+- suivi des demandes de développement ;
+- création d'une demande spontanée hors entretien ;
+- consultation des documents et comptes rendus.
 
-1. l'accueil et la préparation privée ;
-2. l'explication de l'entretien ;
-3. le suivi des demandes de développement ;
-4. les documents et comptes rendus.
+## Avertissement
+
+Cette publication est une maquette utilisant uniquement des données fictives. Les boutons d'envoi, de sauvegarde, d'export et de qualification simulent leur résultat. Aucun courriel, document ou enregistrement réel n'est produit.
 
 ## Liens directs
 
-- `index.html#dashboard` : tableau de bord RH ;
-- `index.html#interviews` : échéances ;
-- `index.html#interview-form` : entretien guidé ;
-- `index.html#conduct-interview` : trame à renseigner pendant l'entretien ;
-- `index.html#needs` : consolidation des besoins ;
-- `index.html#plan` : construction du plan ;
-- `index.html#arbitration` : arbitrages ;
-- `index.html#employee-home` : espace collaborateur.
-
-Les boutons d'envoi, d'export et de sauvegarde simulent leur résultat par une notification. Aucun courriel, document ou enregistrement réel n'est produit.
+- `#dashboard` : tableau de bord RH ;
+- `#employees` : collaborateurs ;
+- `#employee-interview-history` : historique des entretiens ;
+- `#interview-form` : préparation de l'entretien ;
+- `#needs` : consolidation des besoins ;
+- `#employee-request-review` : qualification d'une demande spontanée ;
+- `#plan` : plan de compétences ;
+- `#arbitration` : arbitrages ;
+- `#employee-home` : espace collaborateur ;
+- `#my-training` : demandes du collaborateur ;
+- `#my-request-new` : nouvelle demande spontanée.

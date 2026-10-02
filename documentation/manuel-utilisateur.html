@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manuel utilisateur — Parcours RH</title>
+  <style>
+    :root {
+      --navy:#153a5b;
+      --navy-dark:#102a43;
+      --ink:#17233c;
+      --muted:#65748a;
+      --line:#dfe5eb;
+      --surface:#f4f7f9;
+      --mint:#2cb99a;
+      --mint-pale:#e7f8f3;
+      --blue:#287eae;
+      --blue-pale:#eaf4f9;
+      --coral:#e9705b;
+      --coral-pale:#fff0ec;
+      --amber:#c78a21;
+      --amber-pale:#fff5df;
+      --white:#fff;
+    }
+    * { box-sizing:border-box; }
+    html, body { margin:0; padding:0; background:#dfe5eb; color:var(--ink); font-family:Arial, Helvetica, sans-serif; }
+    body { font-size:11px; line-height:1.45; }
+    @page { size:A4 landscape; margin:0; }
+    .page {
+      position:relative;
+      width:297mm;
+      height:210mm;
+      margin:8mm auto;
+      padding:12mm 14mm 11mm;
+      background:var(--white);
+      overflow:hidden;
+      page-break-after:always;
+      break-after:page;
+    }
+    .page:last-child { page-break-after:auto; }
+    .page::after {
+      content:attr(data-page);
+      position:absolute;
+      right:14mm;
+      bottom:6mm;
+      color:#8491a2;
+      font-size:8px;
+      font-weight:700;
+    }
+    .page-footer {
+      position:absolute;
+      left:14mm;
+      bottom:6mm;
+      color:#8491a2;
+      font-size:8px;
+    }
+    h1, h2, h3, p { margin-top:0; }
+    h1 { font-size:30px; line-height:1.08; letter-spacing:-.7px; }
+    h2 { font-size:21px; line-height:1.12; letter-spacing:-.35px; margin-bottom:5px; }
+    h3 { font-size:13px; margin-bottom:5px; }
+    p { color:var(--muted); }
+    strong { color:var(--ink); }
+    .eyebrow { margin:0 0 5px; color:#16876e; font-size:8px; font-weight:800; text-transform:uppercase; letter-spacing:1.1px; }
+    .lead { font-size:13px; line-height:1.55; max-width:190mm; }
+    .brand { display:flex; align-items:center; gap:9px; color:var(--navy); font-weight:800; }
+    .brand-mark { width:30px; height:30px; display:grid; place-items:center; border-radius:9px; background:var(--mint); color:var(--navy-dark); font-size:17px; }
+    .cover { padding:0; background:linear-gradient(120deg, #102f4a 0%, #174765 58%, #257b7b 100%); color:#fff; }
+    .cover::before { content:""; position:absolute; width:135mm; height:135mm; border-radius:50%; right:-24mm; top:-37mm; border:1px solid rgba(255,255,255,.14); box-shadow:0 0 0 17mm rgba(255,255,255,.035), 0 0 0 36mm rgba(255,255,255,.025); }
+    .cover-inner { height:100%; padding:20mm; display:grid; grid-template-columns:1.05fr .95fr; align-items:center; gap:18mm; }
+    .cover .brand { color:#fff; margin-bottom:22mm; }
+    .cover .brand-mark { color:var(--navy-dark); }
+    .cover h1 { font-size:38px; max-width:135mm; margin-bottom:8mm; }
+    .cover .lead { color:#d4e6ef; max-width:128mm; }
+    .cover-meta { display:flex; flex-wrap:wrap; gap:4mm; margin-top:12mm; }
+    .cover-meta span { padding:3mm 4mm; border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.08); border-radius:20px; font-size:9px; }
+    .cover-shot { padding:5mm; border-radius:8mm; background:rgba(255,255,255,.11); box-shadow:0 12mm 25mm rgba(0,0,0,.23); transform:rotate(1.4deg); }
+    .cover-shot img { width:100%; display:block; border-radius:5mm; }
+    .topline { display:flex; justify-content:space-between; align-items:center; padding-bottom:5mm; border-bottom:1px solid var(--line); margin-bottom:6mm; }
+    .topline .section { color:var(--muted); font-size:8px; font-weight:800; text-transform:uppercase; letter-spacing:.9px; }
+    .intro-grid { display:grid; grid-template-columns:1fr 1fr; gap:7mm; }
+    .card { border:1px solid var(--line); border-radius:5mm; padding:6mm; background:#fff; }
+    .card.soft { background:var(--surface); border-color:transparent; }
+    .card.mint { background:var(--mint-pale); border-color:#ccece3; }
+    .card.blue { background:var(--blue-pale); border-color:#d5e9f3; }
+    .card.amber { background:var(--amber-pale); border-color:#f2dfb6; }
+    .role-card { display:grid; grid-template-columns:15mm 1fr; gap:4mm; align-items:start; }
+    .role-icon { width:13mm; height:13mm; display:grid; place-items:center; border-radius:4mm; background:var(--navy); color:#fff; font-size:15px; font-weight:800; }
+    .steps { display:grid; gap:3mm; }
+    .step { display:grid; grid-template-columns:8mm 1fr; gap:3mm; align-items:start; }
+    .step b { width:7mm; height:7mm; display:grid; place-items:center; border-radius:50%; background:var(--navy); color:#fff; font-size:8px; }
+    .step p { margin:0; }
+    .toc { display:grid; grid-template-columns:1fr 1fr; gap:3mm 9mm; margin-top:5mm; }
+    .toc div { display:grid; grid-template-columns:9mm 1fr auto; align-items:center; gap:2mm; padding:2.6mm 0; border-bottom:1px solid var(--line); }
+    .toc b { color:var(--mint); }
+    .toc small { color:var(--muted); }
+    .manual-layout { display:grid; grid-template-columns:minmax(0, 1fr) 59mm; gap:7mm; align-items:start; }
+    .screenshot-frame { border:1px solid #ccd6df; border-radius:4mm; padding:2.3mm; background:#edf2f5; box-shadow:0 3mm 8mm rgba(21,58,91,.08); }
+    .screenshot-frame img { display:block; width:100%; max-height:145mm; object-fit:contain; object-position:top left; border-radius:2.3mm; background:white; }
+    .caption { margin:2mm 1mm 0; color:#7b8796; font-size:7.5px; }
+    .notes { display:grid; gap:4mm; }
+    .note { padding:4mm; border-radius:4mm; background:var(--surface); border-left:2mm solid var(--blue); }
+    .note.mint { background:var(--mint-pale); border-color:var(--mint); }
+    .note.coral { background:var(--coral-pale); border-color:var(--coral); }
+    .note.amber { background:var(--amber-pale); border-color:var(--amber); }
+    .note p:last-child, .note ul:last-child { margin-bottom:0; }
+    ul { margin:2mm 0 0; padding-left:5mm; color:var(--muted); }
+    li { margin-bottom:1.4mm; }
+    .pill { display:inline-block; margin:0 1mm 1mm 0; padding:1.4mm 2.6mm; border-radius:15px; background:var(--blue-pale); color:#246a91; font-size:8px; font-weight:700; }
+    .pill.mint { background:var(--mint-pale); color:#16876e; }
+    .pill.coral { background:var(--coral-pale); color:#b74d3a; }
+    .pill.amber { background:var(--amber-pale); color:#926417; }
+    .two-shots { display:grid; grid-template-columns:1fr 1fr; gap:6mm; }
+    .two-shots .screenshot-frame img { max-height:128mm; }
+    .flow { display:flex; gap:2mm; align-items:center; flex-wrap:wrap; margin-top:5mm; }
+    .flow span { padding:3mm 4mm; border-radius:3mm; background:var(--surface); font-weight:700; }
+    .flow i { color:var(--mint); font-size:15px; font-style:normal; font-weight:800; }
+    .formula { margin-top:4mm; padding:5mm; border-radius:4mm; background:var(--navy); color:#fff; text-align:center; font-size:14px; font-weight:800; }
+    .formula small { display:block; color:#cfe0ea; font-size:9px; font-weight:500; margin-top:2mm; }
+    .glossary { display:grid; grid-template-columns:1fr 1fr 1fr; gap:4mm; }
+    .glossary .card { min-height:34mm; padding:4.5mm; }
+    .status-table { width:100%; border-collapse:collapse; margin-top:3mm; }
+    .status-table th, .status-table td { padding:3mm; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    .status-table th { color:var(--muted); font-size:8px; text-transform:uppercase; letter-spacing:.7px; }
+    .check-grid { display:grid; grid-template-columns:1fr 1fr; gap:4mm; }
+    .check { display:grid; grid-template-columns:8mm 1fr; gap:3mm; padding:4mm; border:1px solid var(--line); border-radius:4mm; }
+    .check b { width:7mm; height:7mm; display:grid; place-items:center; border-radius:50%; background:var(--mint-pale); color:#16876e; }
+    .warning { padding:4mm; border-radius:4mm; background:var(--coral-pale); color:#82392e; border:1px solid #f3ccc4; }
+    @media print {
+      html, body { background:#fff; }
+      .page { margin:0; }
+      * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    }
+  </style>
+</head>
+<body>
+  <section class="page cover" data-page="1">
+    <div class="cover-inner">
+      <div>
+        <div class="brand"><span class="brand-mark">P</span><span>Parcours RH & Compétences</span></div>
+        <p class="eyebrow" style="color:#7ee2c8">Manuel utilisateur illustré</p>
+        <h1>Comprendre et utiliser la plateforme Parcours RH</h1>
+        <p class="lead">Un guide simple pour préparer les entretiens, suivre les échéances, exprimer les besoins de développement et construire le plan de compétences.</p>
+        <div class="cover-meta"><span>Version 1.0</span><span>2 octobre 2026</span><span>Maquette de démonstration</span></div>
+      </div>
+      <div class="cover-shot"><img src="captures/01-dashboard.png" alt="Tableau de bord RH de la plateforme"></div>
+    </div>
+  </section>
+
+  <section class="page" data-page="2">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Avant de commencer</span></div>
+    <p class="eyebrow">Objectif du manuel</p>
+    <h2>Deux espaces, un même parcours</h2>
+    <p class="lead">La plateforme relie les besoins exprimés par les collaborateurs, les entretiens de parcours professionnel et le plan de développement des compétences piloté par les RH.</p>
+    <div class="intro-grid" style="margin-top:7mm">
+      <div class="card blue role-card"><div class="role-icon">RH</div><div><h3>Vue RH</h3><p>Piloter les échéances, préparer et conduire les entretiens, consulter les historiques, qualifier les besoins, arbitrer et suivre le budget.</p></div></div>
+      <div class="card mint role-card"><div class="role-icon" style="background:#17866f">SL</div><div><h3>Vue collaborateur</h3><p>Préparer son entretien, exprimer des souhaits, envoyer une demande spontanée, suivre les réponses et retrouver ses documents.</p></div></div>
+      <div class="card amber"><h3>Important : il s’agit d’une maquette</h3><p>Les envois, sauvegardes, exports, signatures et changements de statut sont simulés. Aucune donnée réelle n’est enregistrée ou transmise.</p></div>
+      <div class="card"><h3>Changer de vue</h3><p>Utilisez le sélecteur en haut à droite pour passer de <strong>Vue RH</strong> à <strong>Vue collaborateur</strong>. Le menu de gauche s’adapte automatiquement.</p></div>
+    </div>
+    <div class="flow"><span>Collaborateur</span><i>→</i><span>Expression du besoin</span><i>→</i><span>Qualification RH</span><i>→</i><span>Arbitrage</span><i>→</i><span>Action planifiée</span><i>→</i><span>Réalisation</span></div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="3">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Sommaire</span></div>
+    <p class="eyebrow">Repères</p><h2>Choisir son parcours</h2>
+    <div class="toc">
+      <div><b>01</b><span>Tableau de bord RH</span><small>p. 4</small></div>
+      <div><b>09</b><span>Accueil collaborateur</span><small>p. 12</small></div>
+      <div><b>02</b><span>Collaborateurs et échéances</span><small>p. 5</small></div>
+      <div><b>10</b><span>Préparer son entretien</span><small>p. 13</small></div>
+      <div><b>03</b><span>Fiche et historique individuel</span><small>p. 6</small></div>
+      <div><b>11</b><span>Suivre ses demandes</span><small>p. 14</small></div>
+      <div><b>04</b><span>Préparer l’entretien côté RH</span><small>p. 7</small></div>
+      <div><b>12</b><span>Exprimer un besoin spontané</span><small>p. 15</small></div>
+      <div><b>05</b><span>Consolider les besoins</span><small>p. 8</small></div>
+      <div><b>13</b><span>Retrouver ses documents</span><small>p. 16</small></div>
+      <div><b>06</b><span>Qualifier une demande spontanée</span><small>p. 9</small></div>
+      <div><b>14</b><span>Statuts et glossaire</span><small>p. 17</small></div>
+      <div><b>07</b><span>Construire le plan de compétences</span><small>p. 10</small></div>
+      <div><b>15</b><span>Bonnes pratiques</span><small>p. 18</small></div>
+      <div><b>08</b><span>Arbitrages et budget</span><small>p. 11</small></div>
+      <div><b>16</b><span>Parcours rapides</span><small>p. 19</small></div>
+    </div>
+    <div class="card soft" style="margin-top:7mm"><h3>Conseil de lecture</h3><p>Commencez par les pages liées à votre rôle. Les encadrés verts indiquent les points essentiels, les encadrés jaunes les précautions et les encadrés rouges les risques à éviter.</p></div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="4">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Vue RH · Pilotage</span></div>
+    <p class="eyebrow">01 — Tableau de bord</p><h2>Voir immédiatement les priorités</h2>
+    <div class="manual-layout">
+      <div><div class="screenshot-frame"><img src="captures/01-dashboard.png" alt="Tableau de bord RH"><div class="caption">Vue d’ensemble des échéances, alertes, taux de conformité et besoins à traiter.</div></div></div>
+      <aside class="notes">
+        <div class="note mint"><h3>À regarder en premier</h3><ul><li>Les alertes d’échéance.</li><li>Les entretiens à planifier.</li><li>Les dossiers en retard.</li><li>Les besoins à qualifier.</li></ul></div>
+        <div class="note"><h3>Accès rapide</h3><p>Le menu de gauche ouvre les entretiens, les collaborateurs, les besoins, le plan, les arbitrages et le budget.</p></div>
+        <div class="note amber"><h3>Ne pas confondre</h3><p>Le taux global résume une situation. Pour comprendre un cas précis, ouvrez toujours la fiche du collaborateur ou le détail du besoin.</p></div>
+      </aside>
+    </div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="5">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Vue RH · Collaborateurs</span></div>
+    <p class="eyebrow">02 — Échéances individuelles</p><h2>Distinguer le dernier entretien de la situation actuelle</h2>
+    <div class="manual-layout">
+      <div><div class="screenshot-frame"><img src="captures/02-collaborateurs.png" alt="Liste des collaborateurs"><div class="caption">La liste affiche séparément le dernier entretien, la prochaine échéance et la situation actuelle.</div></div></div>
+      <aside class="notes">
+        <div class="note mint"><h3>Lecture d’une ligne</h3><ul><li><strong>Dernier entretien</strong> : événement historique.</li><li><strong>Prochaine échéance</strong> : obligation courante.</li><li><strong>Situation</strong> : à jour, action requise ou en retard.</li></ul></div>
+        <div class="note coral"><h3>Exemple Thomas</h3><p>Son entretien de 2022 est finalisé, mais l’échéance 2026 est dépassée. Sa situation actuelle doit donc être <strong>En retard</strong>.</p></div>
+        <div class="note"><h3>Action</h3><p>Cliquez sur <strong>Ouvrir</strong> pour consulter le dossier individuel.</p></div>
+      </aside>
+    </div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="6">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Vue RH · Dossier individuel</span></div>
+    <p class="eyebrow">03 — Fiche et historique</p><h2>Comprendre le parcours sans écraser le passé</h2>
+    <div class="two-shots">
+      <div><div class="screenshot-frame"><img src="captures/03-fiche-collaborateur.png" alt="Fiche d’un collaborateur"></div><p class="caption">La fiche présente la prochaine obligation, le profil et les accès au dossier.</p></div>
+      <div><div class="screenshot-frame"><img src="captures/04-historique-entretiens.png" alt="Historique des entretiens"></div><p class="caption">L’historique conserve les entretiens, versions, remises et actions associées.</p></div>
+    </div>
+    <div class="intro-grid" style="margin-top:4mm">
+      <div class="note mint"><h3>Historique protégé</h3><p>Un compte rendu finalisé reste consultable et ne peut pas être remplacé silencieusement.</p></div>
+      <div class="note"><h3>Continuité</h3><p>Le nouvel entretien reprend les souhaits et actions précédents comme référence, puis enregistre les actualisations dans une nouvelle version.</p></div>
+    </div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="7">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Vue RH · Entretien</span></div>
+    <p class="eyebrow">04 — Préparation guidée</p><h2>Préparer l’entretien en huit étapes</h2>
+    <div class="manual-layout">
+      <div><div class="screenshot-frame"><img src="captures/05-preparation-entretien.png" alt="Préparation guidée de l’entretien"><div class="caption">La barre d’étapes guide la préparation et affiche la complétude du dossier.</div></div></div>
+      <aside class="notes">
+        <div class="note mint"><h3>Les huit étapes</h3><p><span class="pill">Cadre</span><span class="pill">Entretien précédent</span><span class="pill">Parcours</span><span class="pill">Compétences</span><span class="pill">Projet</span><span class="pill">Développement</span><span class="pill">Modules</span><span class="pill">Plan d’action</span></p></div>
+        <div class="note"><h3>Reprise des données</h3><p>Les souhaits et actions du dernier entretien sont visibles avec leur source. Ils sont évalués, mais jamais écrasés.</p></div>
+        <div class="note amber"><h3>Objet de l’entretien</h3><p>L’entretien porte sur le parcours et les perspectives. Il ne doit pas devenir une notation de performance.</p></div>
+      </aside>
+    </div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="8">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Vue RH · Besoins</span></div>
+    <p class="eyebrow">05 — Consolidation</p><h2>Regrouper les sources et calculer la population</h2>
+    <div class="manual-layout">
+      <div><div class="screenshot-frame"><img src="captures/06-besoins-consolides.png" alt="Tableau de consolidation des besoins"><div class="caption">La page distingue les expressions en entretien, les demandes spontanées et la population unique.</div></div></div>
+      <aside class="notes">
+        <div class="note mint"><h3>Origines</h3><p>Chaque famille de besoin indique combien d’expressions viennent des entretiens et combien viennent des demandes spontanées.</p></div>
+        <div class="formula">4 entretiens + 3 demandes − 0 doublon = 7 personnes<small>La population est calculée séparément pour chaque besoin.</small></div>
+        <div class="note amber"><h3>Dédoublonnage</h3><p>Si une personne exprime le même besoin par les deux canaux, elle compte dans les deux statistiques de source mais une seule fois dans la population.</p></div>
+        <div class="note"><h3>Population cumulée</h3><p>Elle additionne les populations de chaque besoin. Une même personne peut donc apparaître dans plusieurs besoins différents.</p></div>
+      </aside>
+    </div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="9">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Vue RH · Qualification</span></div>
+    <p class="eyebrow">06 — Demande spontanée reçue</p><h2>Qualifier sans accepter automatiquement</h2>
+    <div class="manual-layout">
+      <div><div class="screenshot-frame"><img src="captures/07-demande-spontanee-rh.png" alt="Fiche RH d’une demande spontanée"><div class="caption">La fiche reprend uniquement les informations transmises par la collaboratrice.</div></div></div>
+      <aside class="notes">
+        <div class="note mint"><h3>Informations disponibles</h3><ul><li>Collaborateur et date d’envoi.</li><li>Source « Demande spontanée ».</li><li>Contexte et résultat attendu.</li><li>Horizon et modalités souhaitées.</li></ul></div>
+        <div class="note"><h3>Actions RH</h3><p><strong>Demander un complément</strong> ou préparer la catégorie, la priorité, le responsable et la prochaine étape.</p></div>
+        <div class="note coral"><h3>Attention</h3><p><strong>Qualifier</strong> ne signifie ni retenir la demande dans le plan, ni inscrire la personne à une formation.</p></div>
+      </aside>
+    </div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="10">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Vue RH · Plan</span></div>
+    <p class="eyebrow">07 — Plan de compétences</p><h2>Transformer les besoins en actions organisées</h2>
+    <div class="manual-layout">
+      <div><div class="screenshot-frame"><img src="captures/08-plan-competences.png" alt="Plan de développement des compétences"><div class="caption">Les scénarios demandé, proposé et approuvé permettent de comparer actions, participants et budget.</div></div></div>
+      <aside class="notes">
+        <div class="note mint"><h3>Du besoin à l’action</h3><p>Un même besoin peut conduire à une formation, une AFEST, du tutorat, une VAE, un bilan de compétences ou une autre réponse.</p></div>
+        <div class="note"><h3>Trois scénarios</h3><ul><li><strong>Demandé</strong> : ensemble des besoins.</li><li><strong>Proposé</strong> : scénario préparé.</li><li><strong>Approuvé</strong> : version validée.</li></ul></div>
+        <div class="note amber"><h3>Traçabilité</h3><p>Les besoins individuels restent rattachés aux cohortes, même lorsqu’ils sont regroupés.</p></div>
+      </aside>
+    </div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="11">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Vue RH · Décision</span></div>
+    <p class="eyebrow">08 — Arbitrage et budget</p><h2>Décider, expliquer et financer</h2>
+    <div class="two-shots">
+      <div><div class="screenshot-frame"><img src="captures/09-arbitrages.png" alt="Écran d’arbitrage des besoins"></div><p class="caption">Chaque décision est préparée avec son contexte, son coût et sa population.</p></div>
+      <div><div class="screenshot-frame"><img src="captures/10-budget.png" alt="Écran de suivi du budget"></div><p class="caption">Le budget distingue coûts estimés, financements et reste à charge.</p></div>
+    </div>
+    <div class="intro-grid" style="margin-top:4mm">
+      <div class="note mint"><h3>Décisions possibles</h3><p><span class="pill mint">Retenu</span><span class="pill amber">Reporté</span><span class="pill coral">Non retenu</span></p></div>
+      <div class="note"><h3>Réponse au collaborateur</h3><p>La décision doit être accompagnée d’une explication factuelle et d’une prochaine étape compréhensible.</p></div>
+    </div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="12">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Vue collaborateur · Accueil</span></div>
+    <p class="eyebrow">09 — Mon espace</p><h2>Retrouver les prochaines actions</h2>
+    <div class="manual-layout">
+      <div><div class="screenshot-frame"><img src="captures/11-accueil-collaborateur.png" alt="Accueil de l’espace collaborateur"><div class="caption">L’accueil réunit la préparation, les demandes de développement et les documents.</div></div></div>
+      <aside class="notes">
+        <div class="note mint"><h3>Depuis l’accueil</h3><ul><li>Continuer la préparation.</li><li>Voir la date du prochain entretien.</li><li>Suivre les demandes.</li><li>Accéder aux comptes rendus.</li></ul></div>
+        <div class="note"><h3>Confidentialité</h3><p>La préparation personnelle reste en brouillon jusqu’à sa transmission volontaire.</p></div>
+        <div class="note amber"><h3>Repère</h3><p>Le statut d’une demande ne vaut inscription que lorsqu’une action et une session sont effectivement confirmées.</p></div>
+      </aside>
+    </div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="13">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Vue collaborateur · Entretien</span></div>
+    <p class="eyebrow">10 — Ma préparation</p><h2>Réfléchir à son parcours avant l’échange</h2>
+    <div class="manual-layout">
+      <div><div class="screenshot-frame"><img src="captures/12-preparation-collaborateur.png" alt="Préparation personnelle du collaborateur"><div class="caption">Le collaborateur décrit ses souhaits, compétences à développer et horizon.</div></div></div>
+      <aside class="notes">
+        <div class="note mint"><h3>Questions proposées</h3><ul><li>Quelle évolution souhaitez-vous ?</li><li>Quelles compétences développer ?</li><li>À quel horizon ?</li><li>Une mobilité est-elle envisagée ?</li></ul></div>
+        <div class="note"><h3>Brouillon privé</h3><p>Les réponses ne sont partagées qu’au moment où le collaborateur choisit <strong>Transmettre ma préparation</strong>.</p></div>
+        <div class="note amber"><h3>Pas de bonne ou mauvaise réponse</h3><p>La préparation sert à structurer l’échange. Elle ne constitue pas une évaluation du travail.</p></div>
+      </aside>
+    </div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="14">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Vue collaborateur · Demandes</span></div>
+    <p class="eyebrow">11 — Mes demandes</p><h2>Suivre chaque besoin et sa réponse</h2>
+    <div class="manual-layout">
+      <div><div class="screenshot-frame"><img src="captures/13-mes-demandes.png" alt="Suivi des demandes du collaborateur"><div class="caption">Chaque demande affiche son origine, sa date et son statut actuel.</div></div></div>
+      <aside class="notes">
+        <div class="note mint"><h3>Deux origines possibles</h3><ul><li>Besoin exprimé pendant un entretien.</li><li>Demande spontanée créée hors entretien.</li></ul></div>
+        <div class="note"><h3>Suivi transparent</h3><p>Le collaborateur retrouve la réponse utile et la prochaine étape, sans accéder aux données confidentielles des autres salariés.</p></div>
+        <div class="note amber"><h3>Comprendre les statuts</h3><p><strong>Retenu</strong> signifie intégré au plan. <strong>Planifié</strong> confirme une action et une période. Seule l’inscription confirme la participation à une session.</p></div>
+      </aside>
+    </div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="15">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Vue collaborateur · Nouvelle demande</span></div>
+    <p class="eyebrow">12 — Besoin spontané</p><h2>Exprimer un besoin sans attendre l’entretien</h2>
+    <div class="manual-layout">
+      <div><div class="screenshot-frame"><img src="captures/14-nouvelle-demande.png" alt="Formulaire de demande spontanée"><div class="caption">Le formulaire commence par le résultat recherché ; la modalité de formation reste une préférence.</div></div></div>
+      <aside class="notes">
+        <div class="note mint"><h3>À renseigner</h3><ul><li>Compétence ou résultat souhaité.</li><li>Contexte du besoin.</li><li>Finalité et horizon.</li><li>Modalités à explorer.</li><li>Interlocuteur souhaité.</li></ul></div>
+        <div class="note"><h3>Deux actions</h3><p><strong>Enregistrer le brouillon</strong> le garde privé. <strong>Transmettre la demande</strong> la rend visible aux personnes chargées de la qualifier.</p></div>
+        <div class="note coral"><h3>Ce que l’envoi ne fait pas</h3><p>Il ne modifie aucun compte rendu finalisé et ne vaut ni acceptation, ni financement, ni inscription.</p></div>
+      </aside>
+    </div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="16">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Vue collaborateur · Documents</span></div>
+    <p class="eyebrow">13 — Mes documents</p><h2>Consulter les comptes rendus et justificatifs</h2>
+    <div class="manual-layout">
+      <div><div class="screenshot-frame"><img src="captures/15-mes-documents.png" alt="Documents du collaborateur"><div class="caption">Les comptes rendus et attestations sont regroupés avec leur date, version et statut de remise.</div></div></div>
+      <aside class="notes">
+        <div class="note mint"><h3>Compte rendu</h3><p>Le collaborateur peut consulter la version finalisée qui lui a été remise et retrouver l’historique de ses entretiens.</p></div>
+        <div class="note"><h3>Autres justificatifs</h3><p>Les attestations de formation et documents liés au parcours sont présentés séparément.</p></div>
+        <div class="note amber"><h3>Accusé de réception</h3><p>Il prouve la remise du document. Il ne signifie pas que le collaborateur approuve tout son contenu.</p></div>
+      </aside>
+    </div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="17">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Repères · Statuts</span></div>
+    <p class="eyebrow">14 — Comprendre les statuts</p><h2>Un statut correspond à une étape précise</h2>
+    <table class="status-table">
+      <thead><tr><th>Statut</th><th>Signification</th><th>Ce qu’il faut faire</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill">Brouillon privé</span></td><td>Le collaborateur n’a pas encore transmis la demande.</td><td>Compléter ou transmettre.</td></tr>
+        <tr><td><span class="pill amber">À qualifier</span></td><td>La demande est reçue mais doit être précisée ou classée.</td><td>Analyser le besoin, demander un complément si nécessaire.</td></tr>
+        <tr><td><span class="pill">À arbitrer</span></td><td>Le besoin est suffisamment qualifié pour être décidé.</td><td>Comparer priorité, population, réponse et budget.</td></tr>
+        <tr><td><span class="pill mint">Retenu</span></td><td>Le besoin est intégré au plan approuvé ou proposé.</td><td>Construire et planifier l’action.</td></tr>
+        <tr><td><span class="pill amber">Reporté</span></td><td>Le besoin reste connu mais est renvoyé à une période ultérieure.</td><td>Donner un motif et une date de réexamen.</td></tr>
+        <tr><td><span class="pill coral">Non retenu</span></td><td>Le besoin n’est pas intégré au plan dans sa forme actuelle.</td><td>Fournir une réponse factuelle ou une alternative.</td></tr>
+        <tr><td><span class="pill mint">Planifié</span></td><td>Une action et une période sont prévues.</td><td>Confirmer ensuite l’inscription ou la session.</td></tr>
+        <tr><td><span class="pill mint">Réalisé</span></td><td>L’action est terminée et peut alimenter le parcours.</td><td>Ajouter le résultat ou le justificatif utile.</td></tr>
+      </tbody>
+    </table>
+    <div class="warning" style="margin-top:5mm"><strong>À retenir :</strong> « Exprimé », « retenu », « planifié » et « inscrit » ne veulent pas dire la même chose. L’interface doit toujours montrer la prochaine étape.</div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="18">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Repères · Glossaire</span></div>
+    <p class="eyebrow">15 — Mots utiles</p><h2>Petit glossaire de la plateforme</h2>
+    <div class="glossary">
+      <div class="card"><h3>AFEST</h3><p><strong>Action de formation en situation de travail.</strong> Apprentissage organisé sur une activité réelle, avec accompagnement et temps de recul.</p></div>
+      <div class="card"><h3>CPF</h3><p><strong>Compte personnel de formation.</strong> Droits mobilisables par la personne selon les règles applicables.</p></div>
+      <div class="card"><h3>CEP</h3><p><strong>Conseil en évolution professionnelle.</strong> Accompagnement externe et gratuit du projet professionnel.</p></div>
+      <div class="card"><h3>VAE</h3><p><strong>Validation des acquis de l’expérience.</strong> Démarche permettant de faire reconnaître des compétences acquises.</p></div>
+      <div class="card"><h3>Cohorte</h3><p>Groupe de besoins similaires rassemblés pour construire une réponse commune sans perdre les sources individuelles.</p></div>
+      <div class="card"><h3>Population unique</h3><p>Nombre de collaborateurs distincts concernés par un besoin, après retrait des doubles expressions.</p></div>
+      <div class="card"><h3>Compte rendu finalisé</h3><p>Version figée de l’entretien. Toute correction doit produire une nouvelle version traçable.</p></div>
+      <div class="card"><h3>Échéance</h3><p>Date à laquelle une obligation doit être satisfaite, calculée à partir des règles et de l’historique.</p></div>
+      <div class="card"><h3>Demande spontanée</h3><p>Besoin transmis par un collaborateur en dehors d’un entretien, conservant une source distincte.</p></div>
+    </div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="19">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Parcours rapides</span></div>
+    <p class="eyebrow">16 — Aide-mémoire</p><h2>Les actions essentielles en quelques étapes</h2>
+    <div class="check-grid" style="margin-top:6mm">
+      <div class="check"><b>1</b><div><h3>RH — Traiter un retard</h3><p>Collaborateurs → repérer « En retard » → ouvrir la fiche → vérifier l’échéance → planifier l’entretien.</p></div></div>
+      <div class="check"><b>2</b><div><h3>Collaborateur — Préparer l’entretien</h3><p>Mon accueil → Continuer ma préparation → renseigner souhaits et besoins → transmettre volontairement.</p></div></div>
+      <div class="check"><b>3</b><div><h3>Collaborateur — Envoyer un besoin</h3><p>Mes demandes → Exprimer un besoin → compléter le résultat attendu → enregistrer ou transmettre.</p></div></div>
+      <div class="check"><b>4</b><div><h3>RH — Qualifier une demande</h3><p>Besoins → consulter la demande → vérifier la source → demander un complément ou préparer la qualification.</p></div></div>
+      <div class="check"><b>5</b><div><h3>RH — Consolider une population</h3><p>Comparer les sources → retirer les doublons par collaborateur → vérifier la population unique → créer une cohorte.</p></div></div>
+      <div class="check"><b>6</b><div><h3>RH — Construire le plan</h3><p>Plan de compétences → créer les actions → estimer les coûts → proposer → arbitrer → publier la version approuvée.</p></div></div>
+    </div>
+    <div class="card mint" style="margin-top:7mm"><h3>Règle d’or</h3><p>Conserver la source, expliquer le statut et afficher la prochaine étape. Une expression de besoin n’est jamais présentée comme une promesse.</p></div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+
+  <section class="page" data-page="20">
+    <div class="topline"><div class="brand"><span class="brand-mark">P</span><span>Parcours RH</span></div><span class="section">Fin du guide</span></div>
+    <div style="height:160mm; display:grid; place-items:center; text-align:center">
+      <div style="max-width:175mm">
+        <div class="brand-mark" style="width:20mm;height:20mm;border-radius:6mm;font-size:28px;margin:0 auto 8mm">P</div>
+        <p class="eyebrow">Parcours RH & Compétences</p>
+        <h1>Vous avez maintenant les repères essentiels</h1>
+        <p class="lead" style="margin-left:auto;margin-right:auto">Utilisez la maquette pour valider les parcours, les mots employés et les règles métier avant la construction du produit réel.</p>
+        <div class="intro-grid" style="margin-top:9mm;text-align:left">
+          <div class="card blue"><h3>Maquette interactive</h3><p><code>prototype/index.html</code></p></div>
+          <div class="card mint"><h3>Documentation illustrée</h3><p><code>documentation/manuel-utilisateur.pdf</code></p></div>
+        </div>
+        <p style="margin-top:9mm;font-size:9px">Document produit à partir de données fictives — Version 1.0 — 2 octobre 2026</p>
+      </div>
+    </div>
+    <span class="page-footer">Manuel utilisateur — Parcours RH</span>
+  </section>
+</body>
+</html>
